@@ -17,7 +17,7 @@ const Game = db.define('game', {
     rating: {
         type: DataTypes.DECIMAL
     },
-    photoURL {
+    photoURL: {
         type: DataTypes.STRING
     }
 
