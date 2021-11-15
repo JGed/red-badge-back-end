@@ -10,13 +10,15 @@ const Game = db.define('game', {
     },
     platform: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     genre: {
         type: DataTypes.STRING,
     },
     rating: {
         type: DataTypes.DECIMAL
+    },
+    photoURL {
+        type: DataTypes.STRING
     }
 
 })
