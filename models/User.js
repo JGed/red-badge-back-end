@@ -15,6 +15,11 @@ const User = db.define('user', {
         allowNull: false,
         defaultValue: 'user'
     },
+    offences: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
     passwordHash: {
         type: DataTypes.STRING,
         allowNull: false

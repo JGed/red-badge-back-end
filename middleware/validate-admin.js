@@ -38,4 +38,4 @@ const validateAdmin = (req, res, next) => {
     }
 }
 
-export default validateAdmin;
+module.exports = validateAdmin;

@@ -38,4 +38,4 @@ const validateModerator = (req, res, next) => {
     }
 }
 
-export default validateModerator;
+module.exports = validateModerator;

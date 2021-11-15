@@ -4,22 +4,36 @@ const jwt = require('jsonwebtoken');
 const { Review } = require('../models');
 const validateSession = require('../middleware/validate-session');
 
-router.get('/', validateSession, (req, res) => {
-    Review.findAll()
-    .then(data => console.log(data));
+
+router.get('/user/', validateSession, async (req, res) => {
+    const userId = req.user.id;
+    try {
+        const reviews = await Review.findAll({
+            where: {
+                userId: userId
+            },
+            include: 'game'
+        })
+        res.status(200).json({reviews: reviews})
+    }
+    catch(e) {
+        res.status(500).json({error: e});
+    }
 })
 
 router.post('/', validateSession, async (req, res) => {
     const userId = req.user.id;
     const { 
         text, 
+        title,
         rating,
         gameId
     } = req.body.review
     try {
         const existingReview = await Review.findOne({
             where: {
-                userId: id
+                userId: userId, 
+                gameId: gameId
             }
         })
         if(existingReview !== null) {
@@ -29,9 +43,10 @@ router.post('/', validateSession, async (req, res) => {
         }
         else {
             const newReview = await Review.create({
-                userId: id,
+                userId: userId,
                 gameId: gameId,
                 text: text,
+                title: title,
                 rating: rating
             })
             res.status(200).json({
@@ -46,6 +61,26 @@ router.post('/', validateSession, async (req, res) => {
     }
 })
 
+router.get('/id/:reviewId', validateSession, async (req, res) => {
+    const reviewId = req.params.reviewId;
+    try {
+        const review = await Review.findOne({
+            where: {
+                id: reviewId
+            },
+            include: 'game'
+        })
+        if(review === null){
+            res.status(404).json({error: 'Review does not exist.'});
+        }
+        else {
+            res.status(200).json({review: review})
+        }
+    }
+    catch(error) {
+
+    }
+})
 router.put('/id/:reviewId', validateSession, async (req, res) => {
     const userId = req.user.id;
     const {
