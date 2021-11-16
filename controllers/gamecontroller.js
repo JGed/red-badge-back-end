@@ -104,7 +104,7 @@ router.get('/id/:id', validateSession, async (req, res) => {
  *      Get Games by genre
  **/ 
 router.get('/genre/:genre', validateSession, async (req, res) => {
-    const genre = req.params.genre;
+    const genre = req.params.genre === 'role-playing (rpg)' ? 'rpg' : req.params.genre;
     try {
         const games = await Game.findAll({
             where: {
@@ -140,7 +140,7 @@ router.get('/platform/:platform', validateSession, async (req, res) => {
  *      Get Games by title
  **/ 
 router.get('/title/:title', validateSession, async (req, res) => {
-    const title = req.params.title;
+    const title = req.params.title.replaceAll('%', ' ');
     try {
         const games = await Game.findAll({
             where: {
