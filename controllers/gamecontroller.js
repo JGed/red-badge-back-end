@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 const validateSession = require('../middleware/validate-session');
 const { Game } = require('../models');
+const cloudinary = require('cloudinary').v2;
 
 
 router.get('/', (req, res) => {
@@ -155,6 +156,20 @@ router.get('/title/:title', validateSession, async (req, res) => {
     }
 })
 
-
+router.get("/photo/cloudsign", validateSession, async (req, res) => {
+    try {
+      const timestamp = Math.floor(new Date().getTime() / 1000).toString();
+      const signature = cloudinary.utils.api_sign_request(
+        { timestamp: timestamp, upload_preset: "vg-review-pic" },
+        process.env.CLOUDINARY_SECRET
+      );
+  
+      res.status(200).json({ signature, timestamp });
+    } catch (err) {
+      res.status(500).json({
+        message: "failed to sign",
+      });
+    }
+  });
 
 module.exports = router;
