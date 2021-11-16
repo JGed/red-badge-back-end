@@ -26,13 +26,11 @@ router.post('/', validateSession, (req, res) => {
         title,
         platform,
         genre,
-        photoURL
     } = req.body.game;
     Game.create({
         title: title,
         platform: platform,
         genre: genre,
-        photoURL: photoURL
     })
     .then(game => res.status(200).json({ game: game }))
     .catch(e => res.status(500).json({ error: e }))
