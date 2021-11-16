@@ -144,7 +144,9 @@ router.get('/title/:title', validateSession, async (req, res) => {
     try {
         const games = await Game.findAll({
             where: {
-                title: title
+                title: {
+                    [Op.iLike]: `${title}%`
+                }
             }
         })
         res.status(200).json({ games: games })
