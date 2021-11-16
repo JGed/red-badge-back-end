@@ -30,7 +30,7 @@ router.post('/', validateSession, (req, res) => {
     Game.create({
         title: title,
         platform: platform,
-        genre: genre === 'role-playing (rpg)' ? 'rpg' : genre.toLowerCase(),
+        genre: genre,
     })
     .then(game => res.status(200).json({ game: game }))
     .catch(e => res.status(500).json({ error: e }))
