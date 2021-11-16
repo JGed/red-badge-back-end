@@ -86,17 +86,18 @@ router.put('/id/:reviewId', validateSession, async (req, res) => {
     const {
         text,
         rating,
+        title
     } = req.body.review;
     const reviewId = req.params.reviewId;
     try {
-        const updatedRecipe = await Review.update({ text: text, rating: rating}, {
+        const updatedReview = await Review.update({ text: text, rating: rating, title: title}, {
             where: {
                 id: reviewId,
                 userId: userId
             }
         })
         res.status(200).json({
-            recipe: updatedRecipe
+            review: updatedReview
         })
     }
     catch(e) {
